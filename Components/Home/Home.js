@@ -14,8 +14,7 @@ export class Home extends React.Component {
     },
   }
   state = {
-    buzzwords: [],
-    selected: []
+    buzzwords: []
   }
   getBuzzwordList = () => {
     request
@@ -31,19 +30,6 @@ export class Home extends React.Component {
   componentDidMount(){
     this.getBuzzwordList()
   }
-  toggleBuzzword = (buzzword) => {
-    this.setState(({selected})=>{
-      if(selected.includes(buzzword)){
-        return {
-          selected : selected.filter(word => word !== buzzword)
-        }
-      } else {
-        return {
-          selected : selected.push(buzzword)
-        }
-      }
-    })
-  }
   render() {
     const {buzzwords, selected} = this.state
     return (
@@ -55,7 +41,7 @@ export class Home extends React.Component {
           style={styles.logo}
           source={require('../../assets/images/logo.png')}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences', {buzzwords, selected, toggleBuzzword: this.toggleBuzzword})}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences', {buzzwords})}>
           <Image
             style={styles.button}
             source={require('../../assets/images/begin_button.png')}

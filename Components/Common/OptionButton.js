@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 export const OptionButton = props => (
-  <TouchableOpacity style={props.selected ? styles.selected : styles.container }>
+  <TouchableOpacity
+    style={props.selected ? styles.selected : styles.container}
+    onPress={() => props.toggleBuzzword(props.name, props.category)}>
     <Text style={props.selected ? styles.selectedOption : styles.option}>{props.name}</Text>
   </TouchableOpacity>
 )
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    width: '50%',
+    width: '47%',
     height: 50
   },
   option : {

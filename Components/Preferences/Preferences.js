@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
-import {SelectOptions} from '../Common'
+import {SelectOptions, ContinueButton} from '../Common'
 
 export class Preferences extends React.Component {
   static navigationOptions = {
@@ -19,9 +19,12 @@ export class Preferences extends React.Component {
         color="#fff"
         style={{marginRight: 20}}
       />
-    ),
+    )
   };
-  extractBuzzwords = (buzzwords, selected) => {
+  state = {
+    selected: []
+  }
+  extractBuzzwords = (buzzwords, selected, toggleBuzzword) => {
     return buzzwords.map(group => (
       <SelectOptions
         key={group.category}
@@ -29,14 +32,27 @@ export class Preferences extends React.Component {
         subtitle={'Select Your Top Three'}
         buzzwords={group.words}
         selected={selected}
+        toggleBuzzword={toggleBuzzword}
       />
       )
     )
   }
+  toggleBuzzword = (buzzword, category) => {
+    this.setState(({selected}) => {
+      return {
+        selected : selected.map(words => words.word).includes(buzzword) ? selected.filter(selection => selection.word !== buzzword) : [...selected, {word: buzzword, category}]
+      }
+    })
+  }
+  submitBuzzwords = (selectedBuzzwords) => {
+    //make api call here to /open_recommendation/recommendation/
+    console.log({data: selectedBuzzwords})
+    this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"]})
+  }
   render() {
     const {navigation} = this.props
     const buzzwords = navigation.getParam('buzzwords', [])
-    const selected = navigation.getParam('selected', [])
+    const {selected} = this.state
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>
@@ -44,7 +60,8 @@ export class Preferences extends React.Component {
             style={styles.logo}
             source={require('../../assets/images/logo.png')}
           />
-          {this.extractBuzzwords(buzzwords, selected)}
+          {this.extractBuzzwords(buzzwords, selected, this.toggleBuzzword)}
+          <ContinueButton selected={selected} submitBuzzwords={this.submitBuzzwords}/>
         </View>
       </ScrollView>
     );
