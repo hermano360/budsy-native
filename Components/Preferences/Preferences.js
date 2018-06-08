@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Button } from 'react-native';
 import {SelectOptions, ContinueButton} from '../Common'
+import request from 'superagent'
 
 export class Preferences extends React.Component {
   static navigationOptions = {
@@ -22,7 +23,9 @@ export class Preferences extends React.Component {
     )
   };
   state = {
-    selected: []
+    selected: [],
+    buzzwords: [],
+    recommended: []
   }
   extractBuzzwords = (buzzwords, selected, toggleBuzzword) => {
     return buzzwords.map(group => (
@@ -44,15 +47,151 @@ export class Preferences extends React.Component {
       }
     })
   }
+
   submitBuzzwords = (selectedBuzzwords) => {
-    //make api call here to /open_recommendation/recommendation/
-    console.log({data: selectedBuzzwords})
-    this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"]})
+    // request
+    //   .post('http://99211aba.ngrok.io/strains/')
+    //   .set('Content-Type', 'application/json')
+    //   .send({data: selectedBuzzwords})
+    //   .then(res => {
+    //     this.setState({recommended: res.body})
+    //     this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"], recommended: res.body})
+    //   })
+    //   .catch(err => console.log(err))
+    //
+    //
+    let sampleResponse = [
+  {
+      "name": "Gorkle",
+      "url": "gorkle",
+      "category": "sativa",
+      "effects": [
+          "aroused",
+          "creative",
+          "focused",
+          "happy",
+          "relaxed"
+      ],
+      "flavor": [
+          "sweet"
+      ],
+      "symbol": "Gor",
+      "rating": 5,
+      "totalScore": 29
+  },
+  {
+      "name": "ʻAlenuihāhā",
+      "url": "alenuihaha",
+      "category": "hybrid",
+      "effects": [
+          "aroused",
+          "creative",
+          "energetic",
+          "euphoric",
+          "happy"
+      ],
+      "flavor": [
+          "sweet",
+          "citrus",
+          "tropical",
+          "pineapple",
+          "flowery"
+      ],
+      "symbol": "Ale",
+      "rating": 5,
+      "totalScore": 29
+  },
+  {
+      "name": "Moloka’i Purpz",
+      "url": "molokai-purpz",
+      "category": "indica",
+      "effects": [
+          "aroused",
+          "creative",
+          "euphoric",
+          "relaxed",
+          "sleepy"
+      ],
+      "flavor": [
+          "sweet",
+          "berry",
+          "grape",
+          "plum",
+          "flowery"
+      ],
+      "symbol": "Mol",
+      "rating": 5,
+      "totalScore": 29
+  },
+  {
+      "name": "Clementine’s Terpentine",
+      "url": "clementines-terpentine",
+      "category": "hybrid",
+      "effects": [
+          "aroused",
+          "creative",
+          "focused",
+          "happy",
+          "uplifted"
+      ],
+      "flavor": [
+          "sweet",
+          "earthy",
+          "pine"
+      ],
+      "symbol": "Ctp",
+      "rating": 5,
+      "totalScore": 29
+  },
+  {
+      "name": "Chem Jack",
+      "url": "chem-jack",
+      "category": "hybrid",
+      "effects": [
+          "aroused",
+          "creative",
+          "happy",
+          "talkative",
+          "uplifted"
+      ],
+      "flavor": [
+          "sweet",
+          "flowery",
+          "earthy",
+          "pine",
+          "nutty"
+      ],
+      "symbol": "Cjk",
+      "rating": 5,
+      "totalScore": 29
+  }
+]
+
+    this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"], recommended: sampleResponse})
+
+  }
+
+  getBuzzwordList = () => {
+    request
+      .get('http://99211aba.ngrok.io/buzzwords/')
+      .set('Content-Type', 'application/json')
+      .then(res => {
+        this.setState({
+          buzzwords : res.body.data.filter(group => group.category !== 'negatives')
+        })
+      })
+      .catch(err => console.log(err))
+  }
+  resetSelected = () => {
+    this.setState({selected: []})
+  }
+  componentDidMount(){
+    this.getBuzzwordList()
+    this.resetSelected()
   }
   render() {
     const {navigation} = this.props
-    const buzzwords = navigation.getParam('buzzwords', [])
-    const {selected} = this.state
+    const {selected, buzzwords} = this.state
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>

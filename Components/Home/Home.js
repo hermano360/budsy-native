@@ -16,22 +16,9 @@ export class Home extends React.Component {
   state = {
     buzzwords: []
   }
-  getBuzzwordList = () => {
-    request
-      .get('https://budsydev.mybluemix.net/open_recommendation/buzzwords/')
-      .set('Content-Type', 'application/json')
-      .then(res => {
-        this.setState({
-          buzzwords : res.body.data.filter(group => group.category !== 'negatives')
-        })
-      })
-      .catch(err => console.log(err))
-  }
-  componentDidMount(){
-    this.getBuzzwordList()
-  }
+
   render() {
-    const {buzzwords, selected} = this.state
+    const {selected} = this.state
     return (
       <View style={styles.container}>
         <StatusBar
@@ -41,7 +28,7 @@ export class Home extends React.Component {
           style={styles.logo}
           source={require('../../assets/images/logo.png')}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences', {buzzwords})}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences')}>
           <Image
             style={styles.button}
             source={require('../../assets/images/begin_button.png')}
