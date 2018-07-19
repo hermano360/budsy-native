@@ -16,7 +16,7 @@ export const ContinueButton = props => (
   <TouchableOpacity
     style={determineIfContinue(props.selected) ? styles.continueEnabled : styles.continueDisabled}
     onPress={() => handleBuzzwordSubmit(props.selected, props.submitBuzzwords)}>
-    <Text style={styles.continueText}>Go To Recommendation</Text>
+    <Text style={styles.continueText}>{props.loading ? 'Please Wait' : 'Go To Recommendation'}</Text>
   </TouchableOpacity>
 )
 

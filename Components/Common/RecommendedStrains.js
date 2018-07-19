@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-
+import { FontAwesome } from '@expo/vector-icons'
 
 const CardOutline = props => {
   return (
@@ -14,16 +14,29 @@ const CardOutline = props => {
 }
 
 
-export const RecommendedStrains = props => {
 
-  console.log(styles)
+const CardRating = props => {
+  console.log(new Array(5).fill(null).map((element,i )=> {
+      if(props.rating >= i) return 1
+      else if(props.rating >= i - .5) .5
+      else return 0
+    }))
+  return <View></View>
+}
+
+
+
+export const RecommendedStrains = props => {
   return (
     <TouchableOpacity>
       <CardOutline category={props.category}>
-        <Text style={styles.cardOrder}>{props.order}</Text>
-        <Text style={styles.cardTitle}>{props.name}</Text>
-        <Text style={styles.cardTitle}>{props.symbol}</Text>
-        <Text style={styles.cardTitle}>{props.rating}</Text>
+        <View style={styles.cardOrder} >
+          <Text style={styles.cardOrderText}>{props.order}</Text>
+        </View>
+        <Text style={styles.cardStrainTitle}>{props.name}</Text>
+        <Text style={styles.cardSymbol}>{props.symbol}</Text>
+        <FontAwesome name="star" size={32} color="white" />
+        <CardRating rating={4.3} />
       </CardOutline>
     </TouchableOpacity>
   )
@@ -37,13 +50,22 @@ const colorCodes = {
 const styles = {
   card: {
     width: 250,
-    height: 400,
     margin: 20,
     borderRadius: 5,
     borderWidth: 3,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1
+    alignItems: 'center'
+  },
+  cardStrainTitle: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30
+  },
+  cardSymbol: {
+    color: '#fff',
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 30
   },
   cardTitle: {
     color: '#fff',
@@ -57,5 +79,19 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width:'100%'
+  },
+  cardOrder: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderColor: "#fff",
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    margin: 5
+  },
+  cardOrderText: {
+    color: '#fff'
   }
 };

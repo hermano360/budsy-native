@@ -1,3 +1,5 @@
 export * from './SelectOptions'
 export * from './ContinueButton'
 export * from './RecommendedStrains'
+export * from './SwiperRec'
+export * from './BudsyButton'

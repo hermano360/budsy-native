@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, Button,ScrollView } from 'react-native';
-import {RecommendedStrains } from '../Common'
+import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, Button,ScrollView, ImageBackground } from 'react-native';
+import {RecommendedStrains, SwiperRec } from '../Common'
+import Swiper from 'react-native-deck-swiper'
 
 export class Recommendations extends React.Component {
   static navigationOptions = {
@@ -34,32 +35,45 @@ export class Recommendations extends React.Component {
   }
 
 
-  render() {
-    const recommendedStrains = this.props.navigation.getParam('recommendedStrains', [])
-    const recommended = this.props.navigation.getParam('recommended', [])
 
+
+  render() {
+    const recommended = this.props.navigation.getParam('recommended', [])
     return (
-      <View style={styles.container}>
-        {this.generateRecommendationCards(recommended)}
-      </View>
+      <ImageBackground
+        style={styles.logo}
+        source={require('../../assets/images/logo.png')}
+        resizeMode="contain"
+      >
+        <View style={styles.container}>
+          {this.generateRecommendationCards(recommended)}
+        </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0d1329',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    flex: 1,
     flexDirection: 'column'
+  },
+  logo: {
+    backgroundColor: '#0d1329',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignSelf: 'stretch'
   },
   title: {
     color: '#fff'
   },
   scroll: {
-    flex: 1,
-    backgroundColor: '#0d1329',
+    height: '50%',
+    backgroundColor:'rgba(13, 19, 41, .7)',
   }
 
 });

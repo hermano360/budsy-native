@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Home } from './Components/Home'
 import {Preferences} from './Components/Preferences'
 import {Recommendations} from './Components/Recommendations'
+import {Splash} from './Components/Splash'
 import { createStackNavigator} from 'react-navigation'
 
 const RootStack =  createStackNavigator(
@@ -10,6 +11,7 @@ const RootStack =  createStackNavigator(
     Home: { screen: Home },
     Preferences: { screen: Preferences },
     Recommendations: { screen: Recommendations },
+    Splash: { screen: Splash}
   },
   {
     initialRouteName: 'Home'
