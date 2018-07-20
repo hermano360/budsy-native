@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-n
 
 export const BudsyButton = props => (
   <TouchableOpacity
-    style={props.filled ? styles.buttonFill : styles.buttonEmpty}
-    onPress={() => console.log('touch')}>
+    style={props.filled ?  (props.invalid ? styles.buttonFillInvalid : styles.buttonFill ): styles.buttonEmpty}
+    onPress={props.onPress}>
     <Text style={styles.continueText}>{props.text}</Text>
   </TouchableOpacity>
 )
@@ -24,6 +24,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#6ec572',
+    borderRadius: 5,
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  buttonFillInvalid: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#bababa',
     borderRadius: 5,
     width: '100%',
     marginTop: 10,

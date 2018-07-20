@@ -24,6 +24,7 @@ export class Home extends React.Component {
         <StatusBar
           barStyle="light-content"
         />
+        <Text>+++</Text>
         <Image
           style={styles.logo}
           source={require('../../assets/images/logo.png')}

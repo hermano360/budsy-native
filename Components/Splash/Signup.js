@@ -1,24 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import {BudsyButton} from '../Common'
 import request from 'superagent'
 
-export class Signup extends React.Component {
-  static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#0d1329',
-      height: 0
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }
+export class Signup extends React.Component{
   state = {
-    buzzwords: []
+    username: 'Lidu'
   }
-
-  render() {
-    const {selected} = this.state
+  render(){
     return (
       <View style={styles.container}>
         <StatusBar
@@ -28,32 +17,45 @@ export class Signup extends React.Component {
           style={styles.logo}
           source={require('../../assets/images/logo.png')}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences')}>
-          <Image
-            style={styles.button}
-            source={require('../../assets/images/begin_button.png')}
-          />
-        </TouchableOpacity>
+        <Text style={styles.slogan}>{this.state.username}</Text>
+        <View style={styles.buttonContainer}>
+          <BudsyButton filled text="Sign Up" />
+          <BudsyButton text="Login" />
+        </View>
       </View>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#0d1329',
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+    justifyContent: 'space-between',
+    paddingTop: '10%',
+    paddingBottom: '10%',
+    flex: 1
   },
   logo : {
     width: 200,
     height: 200
+  },
+  slogan: {
+    margin: 10,
+    color: '#bababa',
+    fontSize: 30,
+    fontWeight: 'bold'
   },
   button : {
     width: 300,
     height: 300,
     marginTop: 50
   },
-
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginTop: 20
+  }
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
 import {BudsyButton} from '../Common'
-import { createStackNavigator} from 'react-navigation'
 import request from 'superagent'
 
 export const Splash = props => (
@@ -15,8 +14,8 @@ export const Splash = props => (
     />
     <Text style={styles.slogan}>CANNABIS. YOUR WAY</Text>
     <View style={styles.buttonContainer}>
-      <BudsyButton filled text="Sign Up" />
-      <BudsyButton text="Login" />
+      <BudsyButton filled text="Sign Up" onPress={() => props.navigation.navigate('Signup')} />
+      <BudsyButton text="Login" onPress={() => props.navigation.navigate('Login')} />
     </View>
   </View>
 );
