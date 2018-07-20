@@ -17,7 +17,7 @@ export class Signup extends React.Component{
           style={styles.logo}
           source={require('../../assets/images/logo.png')}
         />
-        <Text style={styles.slogan}>{this.state.username}</Text>
+        <Text style={styles.slogan}>Signup</Text>
         <View style={styles.buttonContainer}>
           <BudsyButton filled text="Sign Up" />
           <BudsyButton text="Login" />

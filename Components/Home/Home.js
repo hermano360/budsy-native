@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, StatusBar } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons'
 import request from 'superagent'
 
 export class Home extends React.Component {
@@ -24,7 +25,11 @@ export class Home extends React.Component {
         <StatusBar
           barStyle="light-content"
         />
-        <Text>+++</Text>
+        <TouchableWithoutFeedback style={styles.sidebarContainer} onPress={()=>console.log('sidebar')}>
+          <View style={styles.sidebarButton}>
+            <FontAwesome name="chevron-right" size={24} color="black" />
+          </View>
+        </TouchableWithoutFeedback>
         <Image
           style={styles.logo}
           source={require('../../assets/images/logo.png')}
@@ -32,7 +37,7 @@ export class Home extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences')}>
           <Image
             style={styles.button}
-            source={require('../../assets/images/begin_button.png')}
+            source={require("../../assets/images/begin_button.png")}
           />
         </TouchableOpacity>
       </View>
@@ -54,7 +59,24 @@ const styles = StyleSheet.create({
   button : {
     width: 300,
     height: 300,
-    marginTop: 50
+    marginTop: 20
   },
+  sidebarContainer: {
+    justifyContent: 'flex-start',
+  },
+  sidebarButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: 30
+  },
+  sidebarIcon: {
+    fontSize: 35,
+    textAlign: 'center',
+  }
 
 });

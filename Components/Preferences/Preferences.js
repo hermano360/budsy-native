@@ -26,7 +26,8 @@ export class Preferences extends React.Component {
   state = {
     selected: [],
     buzzwords: [],
-    recommended: []
+    recommended: [],
+    navigation: false
   }
   extractBuzzwords = (buzzwords, selected, toggleBuzzword) => {
     return buzzwords.map(group => (
@@ -268,20 +269,19 @@ export class Preferences extends React.Component {
         "totalScore": 7
     }
 ]
+const {selected} = this.state
 this.setState({loading: true})
-
-
-    request
-      .post(`${baseURL}/strains/`)
-      .set('Content-Type', 'application/json')
-      .send({data: selectedBuzzwords})
-      .then(res => {
-        this.setState({loading: false})
-        this.props.navigation.navigate('Recommendations', {recommended: res.body})
-        // this.setState({recommended: res.body})
-        // this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"], recommended: res.body})
-      })
-      .catch(err => console.log(err))
+  request
+    .post(`${baseURL}/strains/`)
+    .set('Content-Type', 'application/json')
+    .send({data: selectedBuzzwords})
+    .then(res => {
+      this.setState({loading: false})
+      this.props.navigation.navigate('Recommendations', {recommended: res.body, selected})
+      // this.setState({recommended: res.body})
+      // this.props.navigation.navigate('Recommendations', {recommendedStrains: ["Early Miss","Tangerine Sunrise","Sour Chocolate","Puna Buddaz","Pink Cookies"], recommended: res.body})
+    })
+    .catch(err => console.log(err))
   }
 
   getBuzzwordList = () => {
@@ -298,9 +298,23 @@ this.setState({loading: true})
   resetSelected = () => {
     this.setState({selected: []})
   }
+  refreshFromNavigation = () => {
+    this.setState({navigation: true})
+  }
   componentDidMount(){
     this.getBuzzwordList()
     this.resetSelected()
+  }
+  componentDidUpdate(){
+    const {navigation} = this.state
+    if(this.props.navigation.getParam('refresh', false) && !navigation) {
+      this.getBuzzwordList()
+      this.resetSelected()
+      this.refreshFromNavigation()
+    }
+  }
+  componentWillUnMount(){
+    this.setState({navigation: false})
   }
   render() {
     const {navigation} = this.props

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, Button,ScrollView, ImageBackground } from 'react-native';
-import {RecommendedStrains, SwiperRec } from '../Common'
+import {RecommendedStrains, SwiperRec, BudsyButton } from '../Common'
 import Swiper from 'react-native-deck-swiper'
 
 export class Recommendations extends React.Component {
@@ -14,7 +14,7 @@ export class Recommendations extends React.Component {
       fontWeight: 'bold',
     }
   };
-  generateRecommendationCards = (recommendations) => {
+  generateRecommendationCards = (recommendations, selected) => {
     return (
       <ScrollView horizontal={true} style={styles.scroll}>
         {recommendations.map((rec,i) => {
@@ -27,6 +27,7 @@ export class Recommendations extends React.Component {
               symbol={rec.symbol}
               rating={rec.rating}
               url={rec.url}
+              selected={selected}
             />
           )
         })}
@@ -35,10 +36,9 @@ export class Recommendations extends React.Component {
   }
 
 
-
-
   render() {
     const recommended = this.props.navigation.getParam('recommended', [])
+    const selected = this.props.navigation.getParam('selected', [])
     return (
       <ImageBackground
         style={styles.logo}
@@ -46,7 +46,10 @@ export class Recommendations extends React.Component {
         resizeMode="contain"
       >
         <View style={styles.container}>
-          {this.generateRecommendationCards(recommended)}
+          {this.generateRecommendationCards(recommended, selected)}
+        </View>
+        <View style={styles.tryAgainContainer}>
+          <BudsyButton text="Try Again?" onPress={() => this.props.navigation.navigate('Preferences', {refresh: true})} />
         </View>
       </ImageBackground>
     );
@@ -72,8 +75,14 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   scroll: {
-    height: '50%',
+    height: '70%',
     backgroundColor:'rgba(13, 19, 41, .7)',
+  },
+  tryAgainContainer: {
+    paddingLeft: '15%',
+    paddingRight: '15%',
+    width: '100%'
+
   }
 
 });

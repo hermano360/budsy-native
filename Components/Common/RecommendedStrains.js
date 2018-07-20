@@ -8,6 +8,14 @@ const CardOutline = props => {
       {props.children}
       <View style={{...styles.categorySection, backgroundColor: colorCodes[props.category]}}>
         <Text style={styles.cardTitle}>{props.category}</Text>
+        <View style={styles.thumbsRating}>
+          <TouchableOpacity onPress={() => console.log(props.selected, props.name, false)}>
+            <FontAwesome name="thumbs-down" size={32} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log(props.selected, props.name, true)}>
+            <FontAwesome name="thumbs-up" size={32} color="white"  />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -16,29 +24,31 @@ const CardOutline = props => {
 
 
 const CardRating = props => {
-  console.log(new Array(5).fill(null).map((element,i )=> {
-      if(props.rating >= i) return 1
-      else if(props.rating >= i - .5) .5
-      else return 0
-    }))
-  return <View></View>
+  return (
+    <View style={styles.cardRatingHolder}>
+      {new Array(5).fill(null).map((element,i )=> {
+          if(props.rating >= i) return <FontAwesome name="star" size={32} color="white" key={i}/>
+          else if(props.rating >= i - .5) <FontAwesome name="star-half" size={32} color="white" key={i} />
+          else return 0
+        })}
+    </View>
+  )
 }
-
-
 
 export const RecommendedStrains = props => {
   return (
-    <TouchableOpacity>
-      <CardOutline category={props.category}>
+    <View>
+      <CardOutline category={props.category} selected={props.selected} name={props.name}>
         <View style={styles.cardOrder} >
           <Text style={styles.cardOrderText}>{props.order}</Text>
         </View>
-        <Text style={styles.cardStrainTitle}>{props.name}</Text>
-        <Text style={styles.cardSymbol}>{props.symbol}</Text>
-        <FontAwesome name="star" size={32} color="white" />
+            <View style={styles.cardStrainContainer} >
+              <Text style={styles.cardStrainTitle}>{props.name}</Text>
+            </View>
+            <Text style={styles.cardSymbol}>{props.symbol}</Text>
         <CardRating rating={4.3} />
       </CardOutline>
-    </TouchableOpacity>
+    </View>
   )
 
 }
@@ -55,11 +65,15 @@ const styles = {
     borderWidth: 3,
     alignItems: 'center'
   },
+  cardStrainContainer: {
+    height: 48
+  },
   cardStrainTitle: {
     color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30
+    textAlign: 'center',
+    flexWrap: 'wrap'
   },
   cardSymbol: {
     color: '#fff',
@@ -70,12 +84,11 @@ const styles = {
   cardTitle: {
     color: '#fff',
     fontSize: 24,
+    margin: 10,
     fontWeight: 'bold',
     textAlign: 'center'
   },
   categorySection:{
-    flexDirection: 'row',
-    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     width:'100%'
@@ -93,5 +106,15 @@ const styles = {
   },
   cardOrderText: {
     color: '#fff'
+  },
+  cardRatingHolder: {
+    flexDirection: 'row',
+    height: 48,
+  },
+  thumbsRating: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '70%',
+    margin: 20
   }
 };
