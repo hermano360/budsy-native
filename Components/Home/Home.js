@@ -25,11 +25,6 @@ export class Home extends React.Component {
         <StatusBar
           barStyle="light-content"
         />
-        <TouchableWithoutFeedback style={styles.sidebarContainer} onPress={()=>console.log('sidebar')}>
-          <View style={styles.sidebarButton}>
-            <FontAwesome name="chevron-right" size={24} color="black" />
-          </View>
-        </TouchableWithoutFeedback>
         <Image
           style={styles.logo}
           source={require('../../assets/images/logo.png')}

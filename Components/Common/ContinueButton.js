@@ -8,7 +8,6 @@ determineIfContinue = (selectedStrains) => {
 handleBuzzwordSubmit = (selectedBuzzwords, submitBuzzwords) => {
   if(selectedBuzzwords.length < 4) console.log('Please Select At Least 4 Total Buzzwords')
   else {
-    console.log(selectedBuzzwords)
     submitBuzzwords(selectedBuzzwords)
   }
 }

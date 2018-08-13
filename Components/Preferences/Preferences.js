@@ -290,7 +290,8 @@ this.setState({loading: true})
       .set('Content-Type', 'application/json')
       .then(res => {
         this.setState({
-          buzzwords : res.body.data.filter(group => group.category !== 'negatives')
+          buzzwords : res.body.data.filter(group => group.category !== 'negatives'),
+          navigation: true
         })
       })
       .catch(err => console.log(err))
@@ -302,8 +303,10 @@ this.setState({loading: true})
     this.setState({navigation: true})
   }
   componentDidMount(){
-    this.getBuzzwordList()
-    this.resetSelected()
+    if(!this.state.navigation){
+      this.getBuzzwordList()
+      this.resetSelected()
+    }
   }
   componentDidUpdate(){
     const {navigation} = this.state

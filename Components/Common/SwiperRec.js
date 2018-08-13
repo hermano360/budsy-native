@@ -23,7 +23,7 @@ export class SwiperRec extends Component {
   };
 
   onSwipedAllCards = () => {
-    console.log('all')
+
     this.setState({
       swipedAllCards: true
     })
@@ -54,7 +54,6 @@ export class SwiperRec extends Component {
 
   onSwiped = (e) => {
     this.setState((prevState) => {
-      console.log(e)
       return {
         cards: prevState.cards.filter(card => {
           return Number(card) !== e

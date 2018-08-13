@@ -17,56 +17,14 @@ const AppStack =  createStackNavigator(
   }
 );
 
-const AuthStack =  createStackNavigator(
-  {
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        title: 'Login',
-        headerStyle: {
-          backgroundColor: '#fff'
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }
-    },
-    Signup: {
-      screen: Signup,
-      navigationOptions: {
-        title: 'Signup',
-        headerStyle: {
-          backgroundColor: '#0d1329'
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-    }},
-    Splash: {
-      screen: Splash,
-      navigationOptions: {
-        headerStyle: {
-          backgroundColor: '#0d1329',
-          height: 0
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }
-    }
-  },
-  {
-    initialRouteName: 'Splash'
-  }
-);
+
 
 const RootStack = createSwitchNavigator(
   {
-    AppStack: AppStack,
-    AuthStack: AuthStack
+    AppStack: AppStack
   },
   {
-    initialRouteName: 'AuthStack'
+    initialRouteName: 'AppStack'
   }
 )
 

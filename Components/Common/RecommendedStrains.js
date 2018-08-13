@@ -1,18 +1,24 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View, Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
+
+
+const SCREEN_WIDTH = Dimensions.get('window').width
+const CARD_WIDTH = .75 * SCREEN_WIDTH
+
+
 
 const CardOutline = props => {
   return (
-    <View style={{...styles.card, borderColor: colorCodes[props.category]}}>
+    <View style={{...styles.card}}>
       {props.children}
       <View style={{...styles.categorySection, backgroundColor: colorCodes[props.category]}}>
         <Text style={styles.cardTitle}>{props.category}</Text>
         <View style={styles.thumbsRating}>
-          <TouchableOpacity onPress={() => console.log(props.selected, props.name, false)}>
+          <TouchableOpacity onPress={props.forceSwipeLeft}>
             <FontAwesome name="thumbs-down" size={32} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log(props.selected, props.name, true)}>
+          <TouchableOpacity onPress={props.forceSwipeRight}>
             <FontAwesome name="thumbs-up" size={32} color="white"  />
           </TouchableOpacity>
         </View>
@@ -38,14 +44,20 @@ const CardRating = props => {
 export const RecommendedStrains = props => {
   return (
     <View>
-      <CardOutline category={props.category} selected={props.selected} name={props.name}>
+      <CardOutline
+        category={props.category}
+        top={props.top}
+        name={props.name}
+        forceSwipeRight={()=>props.forceSwipe('right')}
+        forceSwipeLeft={()=>props.forceSwipe('left')}
+        >
         <View style={styles.cardOrder} >
           <Text style={styles.cardOrderText}>{props.order}</Text>
         </View>
-            <View style={styles.cardStrainContainer} >
-              <Text style={styles.cardStrainTitle}>{props.name}</Text>
-            </View>
-            <Text style={styles.cardSymbol}>{props.symbol}</Text>
+        <View style={styles.cardStrainContainer} >
+          <Text style={styles.cardStrainTitle}>{props.name}</Text>
+        </View>
+        <Text style={styles.cardSymbol}>{props.symbol}</Text>
         <CardRating rating={4.3} />
       </CardOutline>
     </View>
@@ -59,11 +71,12 @@ const colorCodes = {
 }
 const styles = {
   card: {
-    width: 250,
-    margin: 20,
+    width: SCREEN_WIDTH*.8,
+    margin: SCREEN_WIDTH*.1,
     borderRadius: 5,
-    borderWidth: 3,
-    alignItems: 'center'
+    borderWidth: 1,
+    alignItems: 'center',
+    backgroundColor: 'rgba(13, 19, 41, .95)'
   },
   cardStrainContainer: {
     height: 48
