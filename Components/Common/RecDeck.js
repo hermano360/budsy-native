@@ -40,7 +40,8 @@ export class RecDeck extends Component{
     this.panResponder = panResponder
     this.position = position
     this.state = {
-      index: 0
+      index: 0,
+      selected: null
     }
   }
 
@@ -56,13 +57,19 @@ export class RecDeck extends Component{
     })
   }
 
+  flashThumb = (selected) => {
+    this.setState({selected})
+  }
+
   forceSwipe = (direction) => {
     const x = direction === 'right' ? SCREEN_WIDTH : -SCREEN_WIDTH
+    direction === 'right' ? this.flashThumb('up') : this.flashThumb('down')
     Animated.timing(this.position, {
       toValue: {x, y: 0},
       duration: SWIPE_OUT_DURATION
     }).start(()=>{
       this.onSwipeComplete(direction)
+      this.setState({selected: null})
     })
   }
 
@@ -91,7 +98,7 @@ export class RecDeck extends Component{
 
 
   renderCards = () => {
-    const {index} = this.state
+    const {index, selected} = this.state
     if(this.state.index >= this.props.data.length){
       return this.props.renderNoMoreCards()
     }
@@ -104,7 +111,7 @@ export class RecDeck extends Component{
             style={[this.getCardStyle(),styles.cardStyle, {zIndex: i * -1}]}
             {...this.panResponder.panHandlers}
             >
-            {this.props.renderCard(item, i, this.forceSwipe)}
+            {this.props.renderCard(item, i, this.forceSwipe, selected)}
           </Animated.View>
         )
       }
@@ -117,7 +124,7 @@ export class RecDeck extends Component{
             right: 2 * (i - index)
           }]}
           >
-          {this.props.renderCard(item, i, this.forceSwipe)}
+          {this.props.renderCard(item, i, this.forceSwipe, null)}
         </Animated.View>
       )
     })

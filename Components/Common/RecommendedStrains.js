@@ -12,14 +12,14 @@ const CardOutline = props => {
   return (
     <View style={{...styles.card}}>
       {props.children}
-      <View style={{...styles.categorySection, backgroundColor: colorCodes[props.category]}}>
+      <View style={[styles.categorySection, {backgroundColor: props.selected ? (props.selected === 'down' ? 'red' : 'green') : colorCodes[props.category]}]}>
         <Text style={styles.cardTitle}>{props.category}</Text>
         <View style={styles.thumbsRating}>
           <TouchableOpacity onPress={props.forceSwipeLeft}>
-            <FontAwesome name="thumbs-down" size={32} color="white" />
+            <FontAwesome name="thumbs-down" size={32} color={props.selected === 'down' ? 'red': 'white'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={props.forceSwipeRight}>
-            <FontAwesome name="thumbs-up" size={32} color="white"  />
+            <FontAwesome name="thumbs-up" size={32} color={props.selected === 'up' ? 'green' : 'white'}  />
           </TouchableOpacity>
         </View>
       </View>
@@ -50,6 +50,7 @@ export const RecommendedStrains = props => {
         name={props.name}
         forceSwipeRight={()=>props.forceSwipe('right')}
         forceSwipeLeft={()=>props.forceSwipe('left')}
+        selected={props.selected}
         >
         <View style={styles.cardOrder} >
           <Text style={styles.cardOrderText}>{props.order}</Text>

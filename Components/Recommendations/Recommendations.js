@@ -14,7 +14,7 @@ export class Recommendations extends React.Component {
       fontWeight: 'bold',
     }
   };
-  renderCard = (rec, i, forceSwipe) => {
+  renderCard = (rec, i, forceSwipe, selected) => {
     return (
       <RecommendedStrains
         key={rec.name}
@@ -25,6 +25,7 @@ export class Recommendations extends React.Component {
         rating={rec.rating}
         url={rec.url}
         forceSwipe={forceSwipe}
+        selected={selected}
       />
     )
   }
