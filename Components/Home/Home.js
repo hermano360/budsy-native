@@ -1,44 +1,55 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
+import { observer, inject } from 'mobx-react'
 import request from 'superagent'
 
-export class Home extends React.Component {
-  static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#0d1329',
-      height: 0
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }
-  state = {
-    buzzwords: []
-  }
+export const Home = inject("contacts")(observer(
+  class Home extends React.Component {
+    static navigationOptions = {
+      title: 'Home',
+      headerStyle: {
+        backgroundColor: '#0d1329',
+        height: 0
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+    state = {
+      buzzwords: []
+    }
+    componentDidMount(){
+      console.log('great')
+    }
 
-  render() {
-    const {selected} = this.state
-    return (
-      <View style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-        />
-        <Image
-          style={styles.logo}
-          source={require('../../assets/images/logo.png')}
-        />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Preferences')}>
-          <Image
-            style={styles.button}
-            source={require("../../assets/images/begin_button.png")}
+    render() {
+      console.log(this.props.contacts.all.slice().map(contact => contact.name))
+      const {selected} = this.state
+      return (
+        <View style={styles.container}>
+          <StatusBar
+            barStyle="light-content"
           />
-        </TouchableOpacity>
-      </View>
-    );
+          <Image
+            style={styles.logo}
+            source={require('../../assets/images/logo.png')}
+          />
+          <TouchableOpacity onPress={() => {
+            this.props.navigation.navigate('Preferences')
+            this.props.contacts.all[0] = {id: 4, name: 'Tommy', age: 25}
+          }}>
+            <Image
+              style={styles.button}
+              source={require("../../assets/images/begin_button.png")}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    }
   }
-}
+))
+
 
 const styles = StyleSheet.create({
   container: {

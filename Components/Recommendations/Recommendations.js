@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, Button,ScrollView, ImageBackground } from 'react-native';
 import {RecommendedStrains, SwiperRec, BudsyButton, RecDeck } from '../Common'
 import Swiper from 'react-native-deck-swiper'
+import { observer, inject } from 'mobx-react'
 
-export class Recommendations extends React.Component {
+export const Recommendations = inject("contacts")(observer(
+  class Recommendations extends React.Component {
   static navigationOptions = {
     title: 'Recommendations',
     headerStyle: {
@@ -59,7 +61,7 @@ export class Recommendations extends React.Component {
       </ImageBackground>
     );
   }
-}
+}))
 
 const styles = StyleSheet.create({
   container: {
