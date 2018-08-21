@@ -6,8 +6,13 @@ class Buzzwords {
   @observable selected = {
     flavor: [],
     effects: []
-
   };
+  @observable count = {
+    flavor: 6,
+    effects: 6
+  }
+  @observable recommendations = []
+  @observable loading = false
 }
 
 export default new Buzzwords();

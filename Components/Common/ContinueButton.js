@@ -1,23 +1,24 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 
-determineIfContinue = (selectedStrains) => {
-  return selectedStrains.length >= 4
+const determineIfContinue = ([flavor, effects]) => {
+  return flavor.length > 0 && effects.length > 0
 }
 
-handleBuzzwordSubmit = (selectedBuzzwords, submitBuzzwords) => {
-  if(selectedBuzzwords.length < 4) console.log('Please Select At Least 4 Total Buzzwords')
-  else {
-    submitBuzzwords(selectedBuzzwords)
-  }
+const handleBuzzwordSubmit = (selected, submitBuzzwords) => {
+  if(determineIfContinue(selected)) submitBuzzwords()
+  else console.log('Please Select At Least 4 Total Buzzwords')
 }
-export const ContinueButton = props => (
+
+export const ContinueButton = props => {
+  const continueAllowed = determineIfContinue(props.selected)
+  return (
   <TouchableOpacity
-    style={determineIfContinue(props.selected) ? styles.continueEnabled : styles.continueDisabled}
+    style={continueAllowed ? styles.continueEnabled : styles.continueDisabled}
     onPress={() => handleBuzzwordSubmit(props.selected, props.submitBuzzwords)}>
     <Text style={styles.continueText}>{props.loading ? 'Please Wait' : 'Go To Recommendation'}</Text>
   </TouchableOpacity>
-)
+)}
 
 const styles = StyleSheet.create({
   continueDisabled: {

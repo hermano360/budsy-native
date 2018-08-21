@@ -4,18 +4,9 @@ import {RecommendedStrains, SwiperRec, BudsyButton, RecDeck } from '../Common'
 import Swiper from 'react-native-deck-swiper'
 import { observer, inject } from 'mobx-react'
 
-export const Recommendations = inject("contacts")(observer(
+export const Recommendations = inject("buzzwords")(observer(
   class Recommendations extends React.Component {
-  static navigationOptions = {
-    title: 'Recommendations',
-    headerStyle: {
-      backgroundColor: '#0d1329',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    }
-  };
+
   renderCard = (rec, i, forceSwipe, selected) => {
     return (
       <RecommendedStrains
@@ -31,17 +22,20 @@ export const Recommendations = inject("contacts")(observer(
       />
     )
   }
-  renderNoMoreCards = () => {
-    return (
-      <View>
-        <Text>No Mas</Text>
-      </View>
-    )
+  resetSelection = () => {
+    this.props.buzzwords.selected.flavor = []
+    this.props.buzzwords.selected.effects = []
+    this.props.buzzwords.count = {
+      flavor: 6,
+      effects: 6
+    }
+    this.props.buzzwords.flavor = [...this.props.buzzwords.flavor].sort((a,b)=> Math.random() > .5)
+    this.props.buzzwords.effects = [...this.props.buzzwords.effects].sort((a,b)=> Math.random() > .5)
+    this.props.navigation.navigate('Preferences')
   }
 
   render() {
-    const recommended = this.props.navigation.getParam('recommended', [])
-    const selected = this.props.navigation.getParam('selected', [])
+    const {recommendations} = this.props.buzzwords
     return (
       <ImageBackground
         style={styles.logo}
@@ -50,13 +44,13 @@ export const Recommendations = inject("contacts")(observer(
       >
         <View style={styles.container}>
           <RecDeck
-            data={recommended}
+            data={recommendations}
             renderCard={this.renderCard}
-            renderNoMoreCards={this.renderNoMoreCards}
+            resetSelection={this.resetSelection}
           />
         </View>
         <View style={styles.tryAgainContainer}>
-          <BudsyButton text="Try Again?" onPress={() => this.props.navigation.navigate('Preferences', {refresh: true})} />
+          <BudsyButton text="Try Again?" onPress={this.resetSelection} />
         </View>
       </ImageBackground>
     );

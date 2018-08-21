@@ -3,29 +3,24 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-n
 import {OptionButton} from './OptionButton'
 
 export class SelectOptions extends Component {
-  state = {
-    length: 6
-  }
-  addBuzzwords = () => {
-    const {buzzwords} = this.props
-    this.setState(({length}) => {
-      if(length <= buzzwords.length) {
-        return {
-          length: length + 4
-        }
-      }
-      return {length}
-    })
-  }
+
   listOfOptions = (buzzwords, selected) => {
-    const {length} = this.state
+    const length = this.props.count
     const {toggleBuzzword, title} = this.props
-    return buzzwords.filter((buzzword,i) => i < length ).map(buzzword => {
-      return <OptionButton key={buzzword} selected={selected.map(selection  => selection.word).includes(buzzword)} name={buzzword} category={title} toggleBuzzword={toggleBuzzword} />
+    return buzzwords.slice(0,length).map(buzzword => {
+      return (
+        <OptionButton
+          key={buzzword}
+          selected={selected.includes(buzzword)}
+          name={buzzword}
+          category={title}
+          toggleBuzzword={toggleBuzzword}
+        />)
     })
   }
+
   render(){
-    const {title, subtitle, buzzwords, selected} = this.props
+    const {title, subtitle, buzzwords, selected, addBuzzwordCount} = this.props
     return (
         <View style={styles.container}>
           <Text style={styles.title}>{title.toUpperCase()}</Text>
@@ -33,8 +28,8 @@ export class SelectOptions extends Component {
           <View style={styles.options}>
             {this.listOfOptions(buzzwords, selected)}
           </View>
-          <TouchableOpacity style={styles.addBuzzword} onPress={this.addBuzzwords}>
-            <Text style={styles.add}>+ More Buzzwords</Text>
+          <TouchableOpacity style={styles.addBuzzword} onPress={addBuzzwordCount}>
+            <Text style={styles.add}>See More Buzzwords</Text>
           </TouchableOpacity>
         </View>
     )

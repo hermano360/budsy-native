@@ -69,7 +69,12 @@ export class RecDeck extends Component{
       duration: SWIPE_OUT_DURATION
     }).start(()=>{
       this.onSwipeComplete(direction)
-      this.setState({selected: null})
+      if(this.state.index >= this.props.data.length){
+        this.props.resetSelection()
+      } else {
+          this.setState({selected: null})
+      }
+
     })
   }
 
@@ -91,16 +96,12 @@ export class RecDeck extends Component{
     }
   }
 
-  testSwipe(direction){
-    console.log(direction)
-  }
-
 
 
   renderCards = () => {
     const {index, selected} = this.state
     if(this.state.index >= this.props.data.length){
-      return this.props.renderNoMoreCards()
+      return <View/>
     }
     return this.props.data.map((item, i) => {
       if(i < index) return null

@@ -2,30 +2,29 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
 import { observer, inject } from 'mobx-react'
+import {baseURL} from '../Common/baseURL'
 import request from 'superagent'
 
-export const Home = inject("contacts")(observer(
+export const Home = inject("buzzwords")(observer(
   class Home extends React.Component {
-    static navigationOptions = {
-      title: 'Home',
-      headerStyle: {
-        backgroundColor: '#0d1329',
-        height: 0
-      },
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
+    
+    getBuzzwordList = () => {
+      request.get(`${baseURL}/buzzwords/`).set('Content-Type', 'application/json').then(res => {
+        const buzzwords = res.body.data.filter(group => group.category !== 'negatives')
+        const flavor = buzzwords.filter(buzzword => buzzword.category === 'flavor').map(buzzword => buzzword.words)[0]
+        const effects = buzzwords.filter(buzzword => buzzword.category === 'effects').map(buzzword => buzzword.words)[0]
+
+        this.props.buzzwords.flavor = flavor
+        this.props.buzzwords.effects = effects
+      }).catch(err => console.log(err))
     }
-    state = {
-      buzzwords: []
-    }
-    componentDidMount(){
-      console.log('great')
+
+
+    componentDidMount() {
+      this.getBuzzwordList()
     }
 
     render() {
-      console.log(this.props.contacts.all.slice().map(contact => contact.name))
-      const {selected} = this.state
       return (
         <View style={styles.container}>
           <StatusBar
@@ -37,7 +36,6 @@ export const Home = inject("contacts")(observer(
           />
           <TouchableOpacity onPress={() => {
             this.props.navigation.navigate('Preferences')
-            this.props.contacts.all[0] = {id: 4, name: 'Tommy', age: 25}
           }}>
             <Image
               style={styles.button}
